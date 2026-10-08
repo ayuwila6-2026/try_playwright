@@ -9,27 +9,27 @@ test.describe('Login', () => {
     await login.goto();
   });
 
-  test('berhasil login dengan user valid', async ({ page }) => {
+  test('logs in successfully with a valid user', async ({ page }) => {
     await login.login('standard_user', 'secret_sauce');
     await expect(page).toHaveURL(/inventory/);
   });
 
-  test('gagal login dengan password salah', async () => {
-    await login.login('standard_user', 'password_salah');
+  test('fails to log in with a wrong password', async () => {
+    await login.login('standard_user', 'wrong_password');
     await expect(login.errorMessage).toContainText('do not match');
   });
 
-  test('user terkunci tidak bisa login', async () => {
+  test('locked-out user cannot log in', async () => {
     await login.login('locked_out_user', 'secret_sauce');
     await expect(login.errorMessage).toContainText('locked out');
   });
 
-  test('username kosong menampilkan error', async () => {
+  test('shows an error when username is empty', async () => {
     await login.login('', 'secret_sauce');
     await expect(login.errorMessage).toContainText('Username is required');
   });
 
-  test('password kosong menampilkan error', async () => {
+  test('shows an error when password is empty', async () => {
     await login.login('standard_user', '');
     await expect(login.errorMessage).toContainText('Password is required');
   });

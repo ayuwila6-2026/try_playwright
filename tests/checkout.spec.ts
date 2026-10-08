@@ -20,25 +20,25 @@ test.describe('Checkout', () => {
     await cart.checkout();
   });
 
-  test('checkout lengkap berhasil', async () => {
+  test('completes a full checkout successfully', async () => {
     await checkout.fillInfo('Budi', 'Santoso', '62271');
     await checkout.continueButton.click();
     await checkout.finishButton.click();
     await expect(checkout.completeHeader).toHaveText('Thank you for your order!');
   });
 
-  test('form kosong menampilkan error first name', async () => {
+  test('shows first name error when the form is empty', async () => {
     await checkout.continueButton.click();
     await expect(checkout.errorMessage).toContainText('First Name is required');
   });
 
-  test('last name kosong menampilkan error', async () => {
+  test('shows last name error when last name is empty', async () => {
     await checkout.firstName.fill('Budi');
     await checkout.continueButton.click();
     await expect(checkout.errorMessage).toContainText('Last Name is required');
   });
 
-  test('postal code kosong menampilkan error', async () => {
+  test('shows postal code error when postal code is empty', async () => {
     await checkout.fillInfo('Budi', 'Santoso', '');
     await checkout.continueButton.click();
     await expect(checkout.errorMessage).toContainText('Postal Code is required');
